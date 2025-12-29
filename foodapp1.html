@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food App</title>
+    <link rel="stylesheet" href="style1.css">
+    <style>
+        /* Minimal CSS for a better layout, you can keep your style1.css for colors/fonts */
+        .food-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            /* Added for consistent layout in the View More sections */
+            display: inline-block; 
+            width: 45%; 
+            margin-right: 2%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .food-item h3 { margin-top: 5px; margin-bottom: 5px;}
+        .food-item img { max-width: 100%; height: auto; border-radius: 4px; }
+        .price { font-weight: bold; color: green; margin: 10px 0; }
+        .controls button { margin: 0 5px; padding: 8px 12px; }
+        
+        #cartBox {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            z-index: 1000;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        #cartItems li {
+            list-style: none;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2 style="font-family:Cambria; text-shadow: 2px;">🍴 TINDAM RA</h2>
+    <nav>
+        <input type="text" id="searchBox" placeholder="Search food..."
+               onkeyup="searchFood()" 
+               style="padding:6px; border-radius:5px; border:none;">
+        <a href="#">Account</a>
+        
+        <a href="#" onclick="event.preventDefault(); toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <div class="food-row">
+        <div class="food-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwSuKOAr5CvvmuIhHfX0JRjtBxZ6XSkcIenQ&s" alt="Chicken Biryani">
+            <h3>BIRYANIS</h3>
+            <p>Traditional spicy biryani cooked with aromatic rice.</p>
+            <button class="btn" onclick="showMore('moreBiryanis')">View More</button>
+        </div>
+        
+        <div id="moreBiryanis" style="display:none;">
+            <h3>All Biryani Varieties</h3>
+            
+            <div class="food-item" data-item-id="veg-biryani" data-item-name="Veg Biryani" data-item-price="300">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo_eHhGefoaJoVR5aRxSXcwt845S3Etf-JGw&s" alt="Veg Biryani">
+                <h3>Veg Biryani</h3>
+                <p>Traditional spicy chicken biryani cooked with aromatic rice.</p>
+                <div class="price">₹300</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+
+            <div class="food-item" data-item-id="paneer-biryani" data-item-name="Paneer Biryani" data-item-price="250">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIGHb7168qPHzObZRqTUixagxUXHg_NiZ06A&s" alt="Paneer Biryani" height="165px" width="165px">
+                <h3>Paneer Biryani</h3>
+                <p>Traditional spicy chicken biryani cooked with aromatic rice.</p>
+                <div class="price">₹250</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+
+            <div class="food-item" data-item-id="mashroom-biryani" data-item-name="Mashroom Biryani" data-item-price="230">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-2yR_UM7-SmuEBN_i-QInCWtIEVEDSVZptw&s" alt="Mashroom Biryani" height="160px" width="160px">
+                <h3>Mashroom Biryani</h3>
+                <p>Traditional spicy chicken biryani cooked with aromatic rice.</p>
+                <div class="price">₹230</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+
+            <div class="food-item" data-item-id="kaju-biryani" data-item-name="Kaju Biryani" data-item-price="270">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ96lYahImq0ytz3FjXFkBnt_wyFolsZsGHZg&s" alt="Kaju Biryani" height="305px" width="305px">
+                <h3>Kaju Biryani</h3>
+                <p>Traditional spicy chicken biryani cooked with aromatic rice.</p>
+                <div class="price">₹270</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+
+            <div class="food-item" data-item-id="mutton-biryani" data-item-name="Mutton Biryani" data-item-price="280">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRseILc6uEAid4Gk5HPps_v3YZzzdys0faVIw&s" alt="Mutton Biryani">
+                <h3>Mutton Biryani</h3>
+                <p>Traditional spicy chicken biryani cooked with aromatic rice.</p>
+                <div class="price">₹280</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+        <div class="food-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpDDzn-BlKTM-58UbTJDTUs0PNCunBvKn-8Q&s" alt="Starters">
+            <h3>STARTERS</h3>
+            <p>Starters are delicious appetizers served before the main course.</p>
+            <button class="btn" onclick="showMore('moreStarters')">View More</button>
+        </div>
+
+        <div id="moreStarters" style="display:none;">
+            <h3>All Starters Varieties</h3>
+            
+            <div class="food-item" data-item-id="chicken-starter" data-item-name="Chicken Starter" data-item-price="320">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDuxOXxEoeV_2GfnqwVVkt1ffDmbGotRPAxQ&s" alt="Chicken" height="130px" width="130px">
+                <h3>Chicken</h3>
+                <p>Traditional spicy chicken starter which is made with fresh chicken.</p>
+                <div class="price">₹320</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="paneer-starter" data-item-name="Paneer Starter" data-item-price="270">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXX_iWaYE7ckXHDfyEz3GaWK4F_T8-mQV1FQ&s" alt="Paneer" height="150px" width="150px">
+                <h3>Paneer</h3>
+                <p>Traditional Paneer cooked with fresh Paneer.</p>
+                <div class="price">₹270</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="mushroom-starter" data-item-name="Mushroom Starter" data-item-price="230">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlk6tugcm46XX9WhIonOt2u4qvDkjBYJq5LQ&s" alt="Mushroom">
+                <h3>Mushroom</h3>
+                <p>Traditional Mushroom cooked with aromatic Mushroom.</p>
+                <div class="price">₹230</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="crispy-corn" data-item-name="Crispy Corn" data-item-price="270">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFDgSCTbkYTYhpBmDSPWSVYG1QT8BPJfQlog&s" alt="Crispy Corn">
+                <h3>Crispy Corn</h3>
+                <p>Traditional spicy Crispy corn cooked with fresh corn.</p>
+                <div class="price">₹270</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="baby-corn" data-item-name="Baby Corn" data-item-price="280">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBUv5PHDGB9tYRUAULPlhHZhnKUmBJHuQVag&s" alt="Baby Corn" height="150px" width="150px">
+                <h3>Baby Corn</h3>
+                <p>Traditional spicy Baby Corn cooked Organic corn.</p>
+                <div class="price">₹280</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+        <div class="food-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEcmznN0UK8iKyMl6gDjUNsxsAzmczlqUv_g&s" alt="Desserts" >
+            <h3>Desserts</h3>
+            <p>Sweet treats to perfectly end your meal. 🍰</p>
+            <button class="btn" onclick="showMore('moreDeserts')">View More</button>
+        </div>
+
+        <div id="moreDeserts" style="display:none;">
+            <h3>All Desserts Varieties</h3>
+            
+            <div class="food-item" data-item-id="kunafa" data-item-name="Kunafa" data-item-price="230">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0M2RNRTOTiPdv5VhB_lsDFm5dLdTloq4RlA&s" alt="Kunafa">
+                <h3>Kunafa</h3>
+                <p>Kunafa is a popular Middle Eastern dessert made with crispy shredded pastry.</p>
+                <div class="price">₹230</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="apricot-delight" data-item-name="Apricot delight" data-item-price="240">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFmgF6EBiBvTjFNd71bFcxTkmQv7q0av8GNw&s" alt="Apricot delight" height="160px" width="160px">
+                <h3>Apricot delight</h3>
+                <p>Apricot Delight is a sweet and creamy dessert made with fresh apricots.</p>
+                <div class="price">₹240</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="rasmalai" data-item-name="Rasmalai" data-item-price="200">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLhc03xwrM_YtBf7bfRExt549Gmm07u2aQXg&s" alt="Rasmalai">
+                <h3>Rasmalai</h3>
+                <p>Indian dessert made from spongy paneer balls soaked in sweet, saffron-flavored milk.</p>
+                <div class="price">₹200</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="chocolate-lava-cake" data-item-name="Chocolate lava cake" data-item-price="170">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM_qlHwgC2veJs93IfN_3bCkOzeI4RTf4w4Q&s" alt="chocolate-lava-cake" height="360px" width="360px">
+                <h3>Chocolate lava cake</h3>
+                <p>Warm chocolate dessert with a soft outer layer and a gooey, molten chocolate center. 🍫</p>
+                <div class="price">₹170</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="american-apple-pie" data-item-name="American apple pie" data-item-price="150">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDrHWKuCsMt75rmJA_zApJkgJ0TvC7HnycEA&s" alt="American apple pie">
+                <h3>American apple pie</h3>
+                <p>It a classic dessert made with spiced apples baked in a flaky, buttery crust.</p>
+                <div class="price">₹150</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="food-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMSGNXCSkLXEMqN0R8ZtjXB3_Gr1x1_wYJDw&s" alt="Icecreams">
+            <h3>Icecreams</h3>
+            <p> It's a creamy frozen desserts that are perfect for cooling down and enjoying delicious flavors. 🍨</p>
+            <button class="btn" onclick="showMore('moreIcecreams')">View More</button>
+        </div>
+
+        <div id="moreIcecreams" style="display:none;">
+            <h3>All Icecreams Varieties</h3>
+            
+            <div class="food-item" data-item-id="chocolate-icecream" data-item-name="Chocolate Icecream" data-item-price="100">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmsPt39X-r-mnf71ES8aLSei4kXX8ymX71mA&s" alt="Chocolate">
+                <h3>Chocolate</h3>
+                <p>Rich and creamy chocolate ice cream made with real cocoa for a smooth, indulgent taste.🍫🍨</p>
+                <div class="price">₹100</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="strawberry-icecream" data-item-name="Strawberry Icecream" data-item-price="150">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqc1aVzkY1axSzKkvNnxFGm-P8rhcmRjFAKw&s" alt="Strawberry" height="240px" width="240px">
+                <h3>Strawberry</h3>
+                <p>Its a creamy dessert made with fresh strawberry flavor that’s refreshing and delicious.🍓🍨</p>
+                <div class="price">₹150</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="blackberry-icecream" data-item-name="Blackberry Icecream" data-item-price="130">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1NecTLnTuSNOECdclTSOL8cySjRoYnqpk9Q&s" alt="Blackberry">
+                <h3>Blackberry</h3>
+                <p> This dessert made with rich milk and the sweet-tart flavor of fresh blackberries.🍨</p>
+                <div class="price">₹130</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+            
+            <div class="food-item" data-item-id="blueberry-icecream" data-item-name="Blueberry Icecream" data-item-price="140">
+                <img src="https://panaceaspantryblog.com/wp-content/uploads/2019/12/fullsizeoutput_395d-1600x2000.jpg" alt="Blueberry" height="200px" width="200px">
+                <h3>Blueberry</h3>
+                <p> The dessert made with the sweet and tangy flavor of fresh blueberries.🍨</p>
+                <div class="price">₹140</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+
+            <div class="food-item" data-item-id="caramel-icecream" data-item-name="Caramel Icecream" data-item-price="150">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkeOEvOMgY_MbhmtS7FCR5jVn3uZGKWzwl9g&s" alt="Caramel ">
+                <h3>Caramel</h3>
+                <p>Caramel ice cream is a rich and creamy dessert with a smooth caramel flavor and a sweet, buttery taste.🍨</p>
+                <div class="price">₹150</div>
+                <div class="controls" style="margin-top:10px;">
+                    <button class="btn add-btn" onclick="addItem(this)">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="cartBox" style="
+display:none;
+background:white;
+padding:20px;
+border-radius:10px;
+margin:20px;
+">
+    <h3>🛒 Your Cart</h3>
+    <ul id="cartItems"></ul>
+    <p><strong>Total: ₹<span id="cartTotal">0</span></strong></p>
+    <button class="btn" onclick="toggleCart()">Close</button>
+</div>
+
+<footer>
+    This is a Food app
+</footer>
+
+<script>
+// KEY CHANGE 4: Updated cart to store objects {id, name, price, quantity}
+let cart = [];
+
+/* VIEW MORE */
+function showMore(id) {
+    let section = document.getElementById(id);
+    section.style.display = (section.style.display === "block") ? "none" : "block";
+}
+// Removed redundant showMore1, showMore2, showMore3 functions
+
+/* UPDATE CART DISPLAY COUNTS */
+function updateCartDisplay() {
+    let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    document.getElementById("cartCount").innerText = totalItems;
+    document.getElementById("cartTotal").innerText = totalPrice;
+}
+
+/* ADD ITEM */
+function addItem(btn) {
+    // Traverse up to the main food-item container to get data attributes
+    const itemElement = btn.closest(".food-item");
+    
+    // Get item data
+    const itemId = itemElement.getAttribute("data-item-id");
+    const itemName = itemElement.getAttribute("data-item-name");
+    // Parse price as an integer
+    const itemPrice = parseInt(itemElement.getAttribute("data-item-price"));
+
+    // Check if item is already in cart
+    let existingItem = cart.find(item => item.id === itemId);
+
+    if (existingItem) {
+        // Item exists, just increase quantity
+        existingItem.quantity += 1;
+    } else {
+        // Item does not exist, add new item object
+        cart.push({
+            id: itemId,
+            name: itemName,
+            price: itemPrice,
+            quantity: 1
+        });
+    }
+
+    updateCartDisplay();
+    // Optional: show a quick confirmation or refresh cart view
+    // alert(`${itemName} added to cart!`);
+}
+
+/* REMOVE ITEM (handles single item removal from cart list, or full removal from product list) */
+function removeItem(itemId) {
+    // Find the item index
+    let index = cart.findIndex(item => item.id === itemId);
+
+    if (index > -1) {
+        // If called from the cart list, it means to remove one unit
+        if (cart[index].quantity > 1) {
+            cart[index].quantity -= 1;
+        } else {
+            // Quantity is 1, remove the whole item from the cart array
+            cart.splice(index, 1);
+        }
+    }
+    
+    updateCartDisplay();
+    // Refresh the open cart view if it is open
+    if (document.getElementById("cartBox").style.display === "block") {
+        renderCartList();
+    }
+}
+
+/* RENDER CART LIST (Helper function for toggleCart) */
+function renderCartList() {
+    let list = document.getElementById("cartItems");
+    list.innerHTML = ""; // Clear existing list
+
+    if (cart.length === 0) {
+        list.innerHTML = "<li>Your cart is empty.</li>";
+        return;
+    }
+
+    cart.forEach(item => {
+        let li = document.createElement("li");
+        
+        // Display item details
+        let itemDetails = `
+            ${item.name} 
+            (x${item.quantity})
+        `;
+        
+        // Display item price and total for that item
+        let itemPrice = `
+            ₹${item.price * item.quantity}
+        `;
+        
+        // Create remove button
+        let removeBtn = document.createElement("button");
+        removeBtn.innerText = "Remove";
+        removeBtn.className = "btn remove-small";
+        // Use the removeItem function and pass the item ID
+        removeBtn.onclick = () => removeItem(item.id); 
+        
+        li.innerHTML = `<span>${itemDetails}</span> <span>${itemPrice}</span>`;
+        li.appendChild(removeBtn);
+        list.appendChild(li);
+    });
+}
+
+
+/* SHOW/HIDE CART BOX */
+function toggleCart() {
+    let box = document.getElementById("cartBox");
+    
+    // Check if the cart is currently hidden
+    if (box.style.display !== "block") {
+        renderCartList(); // Populate the cart list before showing
+        box.style.display = "block";
+    } else {
+        box.style.display = "none";
+    }
+}
+
+/* SEARCH */
+function searchFood() {
+    let input = document.getElementById("searchBox").value.toLowerCase();
+    // Search across both food-card and food-item elements
+    let elements = document.querySelectorAll(".food-card, .food-item");
+
+    for (let i = 0; i < elements.length; i++) {
+        let titleElement = elements[i].getElementsByTagName("h3")[0];
+        let displayStyle = "block";
+
+        if (elements[i].classList.contains("food-card")) {
+            // For the main card, always show if it matches, or if it's not a view-more section.
+            if (!titleElement.innerText.toLowerCase().includes(input)) {
+                displayStyle = "none";
+            }
+        } else if (elements[i].classList.contains("food-item")) {
+             // For individual items in 'View More', only show if they match
+            if (!titleElement.innerText.toLowerCase().includes(input)) {
+                displayStyle = "none";
+            }
+        }
+        
+        elements[i].style.display = displayStyle;
+    }
+}
+</script>
+
+</body>
+</html>
