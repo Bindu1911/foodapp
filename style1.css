@@ -1,0 +1,151 @@
+
+        /* body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        } */
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("https://images.unsplash.com/photo-1490818387583-1baba5e638af?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+            background-size: cover;
+            background-repeat: repeat;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+
+        /* HEADER */
+        header {
+            /* background-color: yellowgreen; */
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: red;
+            margin-left: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* MAIN SECTION */
+        .container {
+            padding: 75px;
+            /* background-color: lightgray; */
+        }
+
+        .food-row {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;   
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .food-card {
+            background: sandybrown;
+            width: 260px;
+            border-radius: 10px;
+            box-shadow: 0 0 60px sienna;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 160px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .food-card h3 {
+            margin: 10px 0 5px;
+        }
+
+        .food-card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #ff5722;
+            margin: 8px 0;
+        }
+
+        .btn {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #e64a19;
+        }
+
+        /* VIEW MORE SECTION */
+        #moreBiryanis{
+            display: none;
+            margin-top: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #moreStarters{
+            display: none;
+            margin-top: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #moreDeserts{
+            display: none;
+            margin-top: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #moreIcecreams{
+            display: none;
+            margin-top: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            
+        }
+
+        .cartBox{
+        display:none;
+        background:white;
+        padding:20px;
+        border-radius:10px;
+        margin:20px;
+        }
+
+        
+
+        footer {
+            /* background: yellowgreen; */
+            color: red;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+            padding: 40px;
+            font-family: Georgia,;
+            font-weight: bold;
+            font-size: 20px;
+        }
+b
